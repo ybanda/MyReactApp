@@ -13,5 +13,5 @@ My First React JS Application.
 # TODOS
 
 - [ ] Welcome Page
-- [x] Youtube Video Search,Player
+- [x] Youtube Video Searcher/Player
 - [ ] Test

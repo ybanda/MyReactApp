@@ -5,7 +5,7 @@ const VideoDetail = ({video})=>{
     if(!video){
         return (
             <div className="fa fa-spinner fa-spin fa-3x fa-fw">
-            Loading...
+           
         </div>
         );
     }
