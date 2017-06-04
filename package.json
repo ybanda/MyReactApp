@@ -1,6 +1,6 @@
 {
   "name": "myreactapp",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "My First React App",
   "main": "index.js",
   "repository": "git@github.com:ybanda/MyReactApp.git",
