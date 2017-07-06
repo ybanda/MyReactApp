@@ -51,10 +51,8 @@ videoSearch(term){
  render(){
    const videoSearch = _.debounce((term)=>{this.videoSearch(term)},300);
    return (
-     
-        <div>
-          
-           <h1> My ReactJs App</h1> 
+      
+       <div>
             <SearchBar onSearchTermChange={videoSearch}/>
             <VideoDetail video={this.state.selectedVideo}/>
             <VideoList 
@@ -62,8 +60,14 @@ videoSearch(term){
               onVideoSelect={selectedVideo =>this.setState({selectedVideo})}/>
            <AllFilter />
          </div>
+        
     );
   }
 }
 
 ReactDOM.render(<App/>,document.querySelector('.myApp'));
+// const navbarInstance = (
+ 
+// );
+
+// ReactDOM.render(navbarInstance,document.querySelector('.myApp'))

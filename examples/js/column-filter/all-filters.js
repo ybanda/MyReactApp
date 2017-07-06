@@ -12,6 +12,22 @@ const qualityType = {
   2: 'unknown'
 };
 
+const channelType = {
+  0: 'Mobile',
+  1: 'Web',
+  2: 'Paper',
+  3:'channel 4',
+  4:'channel 5'
+};
+
+const MOCType = {
+ 0: 'Mobile',
+  1: 'Web',
+  2: 'Paper',
+  3:'channel 4',
+  4:'channel 5'
+};
+
 class CheckboxFilter extends React.Component {
   constructor(props) {
     super(props);
@@ -111,11 +127,11 @@ export default class AllFilters extends React.Component {
         </TableHeaderColumn>
         <TableHeaderColumn ref='name1' dataField='name' filter={ { type: 'TextFilter', placeholder: 'Please enter a value' } }>User Role</TableHeaderColumn>
         <TableHeaderColumn ref='name2' dataField='name' filter={ { type: 'RegexFilter', placeholder: 'Please enter a regex' } }>Task Name</TableHeaderColumn>
-        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'SelectFilter', options: qualityType } } dataFormat={ enumFormatter } formatExtraData={ qualityType }>Channel</TableHeaderColumn>
-        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'SelectFilter', options: qualityType } } dataFormat={ enumFormatter } formatExtraData={ qualityType }>MOC</TableHeaderColumn>
-        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'SelectFilter', options: qualityType } } dataFormat={ enumFormatter } formatExtraData={ qualityType }>Is Employee</TableHeaderColumn>
-        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'SelectFilter', options: qualityType } } dataFormat={ enumFormatter } formatExtraData={ qualityType }>Is Unsolicited</TableHeaderColumn>
-        <TableHeaderColumn ref='isInStock' dataField='isInStock' filter={ { type: 'CustomFilter', getElement: getCustomFilter, customFilterParameters: { textOK: 'yes', textNOK: 'no' } } }>Product Is In Stock</TableHeaderColumn>
+        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'SelectFilter', options: channelType } } dataFormat={ enumFormatter } formatExtraData={ channelType }>Channel</TableHeaderColumn>
+        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'SelectFilter', options: MOCType } } dataFormat={ enumFormatter } formatExtraData={ MOCType }>MOC</TableHeaderColumn>
+        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'CustomFilter', getElement: getCustomFilter, customFilterParameters: { textOK: 'Y', textNOK: 'N' } } }>Is Employee</TableHeaderColumn>
+        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'CustomFilter', getElement: getCustomFilter, customFilterParameters: { textOK: 'Y', textNOK: 'N' } } }>Is Unsolicited</TableHeaderColumn>
+        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'CustomFilter', getElement: getCustomFilter, customFilterParameters: { textOK: 'Y', textNOK: 'N' } } }>Is Workflow Involved?</TableHeaderColumn>
        
         </BootstrapTable>
     );
