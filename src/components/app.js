@@ -6,6 +6,7 @@ import UTubeSearch from 'youtube-api-search';
 import SearchBar from './search_bar';
 import VideoList from './video_list';
 import VideoDetail from './video_details';
+import AllFilter  from '../../examples/js/column-filter/all-filters';
 
 const API_KEY='AIzaSyD3xMCbiLdA7oPyohavecPP_glB1F4AqFo';
 
@@ -53,6 +54,7 @@ videoSearch(term){
             <VideoList 
               videos={this.state.videos}
               onVideoSelect={selectedVideo =>this.setState({selectedVideo})}/>
+           <AllFilter />
          </div>
     );
   }
