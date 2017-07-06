@@ -2,6 +2,10 @@ import _ from 'lodash';
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
 import UTubeSearch from 'youtube-api-search';
+import {Router, Route, browserHistory} from 'react-router'
+import Layout from './layout'
+import Header from './header'
+import Footer from './footer'
 
 import SearchBar from './search_bar';
 import VideoList from './video_list';
@@ -47,7 +51,9 @@ videoSearch(term){
  render(){
    const videoSearch = _.debounce((term)=>{this.videoSearch(term)},300);
    return (
+     
         <div>
+          
            <h1> My ReactJs App</h1> 
             <SearchBar onSearchTermChange={videoSearch}/>
             <VideoDetail video={this.state.selectedVideo}/>
