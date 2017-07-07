@@ -4,6 +4,7 @@ import React from 'react';
 import BootstrapTable from '../../../src/BootstrapTable';
 import TableHeaderColumn from '../../../src/TableHeaderColumn';
 
+
 const products = [];
 
 const qualityType = {
@@ -117,8 +118,11 @@ function getCustomFilter(filterHandler, customFilterParameters) {
     <CheckboxFilter filterHandler={ filterHandler } textOK={ customFilterParameters.textOK } textNOK={ customFilterParameters.textNOK } />
   );
 }
+
 export default class AllFilters extends React.Component {
   render() {
+
+    
     return (
       <BootstrapTable ref='table' data={ products }>
         <TableHeaderColumn dataField='id' isKey={ true }>
@@ -146,5 +150,28 @@ export default class AllFilters extends React.Component {
     this.refs.satisfaction.cleanFiltered();
     this.refs.inStockDate.cleanFiltered();
   }
+  
+        componentDidMount(){
+          console.log('Inside of Do Mount');
+          this.callService.bind(this);
+           $.ajax({
+      url: "https://jsonplaceholder.typicode.com/users"
+    }).then(function(data) {
+      console.log('Inside of Data ='+JSON.stringify(data));
+        this.setState({
+           
+        });
+    });
+
+          console.log('Outside of Do Mount');
+        }
+        callService(){
+          $.get("https://jsonplaceholder.typicode.com/users",
+             function(data) {
+              console.log('Data ='+data);
+             }.bind(this));
+              
+      }
+
 }
 
