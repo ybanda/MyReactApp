@@ -29,6 +29,26 @@ const MOCType = {
   4:'channel 5'
 };
 
+
+function stringifyObject ( obj ) {
+  if ( _.isArray( obj ) || !_.isObject( obj ) ) {
+    return obj.toString()
+  }
+  var seen = [];
+  return JSON.stringify(
+    obj,
+    function( key, val ) {
+      if (val != null && typeof val == "object") {
+        if ( seen.indexOf( val ) >= 0 )
+          return
+          seen.push( val )
+          }
+      return val
+    }
+  );
+}
+
+
 class CheckboxFilter extends React.Component {
   constructor(props) {
     super(props);
@@ -37,25 +57,34 @@ class CheckboxFilter extends React.Component {
   }
 
   filter(event) {
-    if (this.refs.nokCheckbox.checked && this.refs.okCheckbox.checked) {
+   
+    if (this.refs.okCheckbox.checked) {
+      console.info('Inside of Filter Checked '+stringifyObject(this));
       // all checkboxes are checked means we want to remove the filter for this column
       this.props.filterHandler();
     } else {
+
+      console.info('Inside of Filter Un-Checked ');
       this.props.filterHandler({ callback: this.isFiltered });
     }
   }
 
   isFiltered(targetValue) {
-    if (targetValue === 'no') {
-      return (this.refs.nokCheckbox.checked);
-    } else {
+      console.info('Inside of isFiltered = '+targetValue);
+    if (targetValue === 'Y') {
+
+      console.info('Inside of isFiltered : if :: '+targetValue);
       return (this.refs.okCheckbox.checked);
+    }
+    else{
+      console.info('Inside of isFiltered : else :: '+targetValue);
+      return (this.refs.okCheckbox.checked=false);
     }
   }
 
   cleanFiltered() {
+    console.info('Inside of cleanFiltered : '+ this.refs.okCheckbox.checked);
     this.refs.okCheckbox.checked = true;
-    this.refs.nokCheckbox.checked = true;
     this.props.filterHandler();
   }
 
@@ -63,22 +92,27 @@ class CheckboxFilter extends React.Component {
     return (
       <div>
         <input ref='okCheckbox' type='checkbox' className='filter' onChange={ this.filter } defaultChecked={ true } /><label>{ this.props.textOK }</label>
-        <input ref='nokCheckbox' type='checkbox' className='filter' onChange={ this.filter } defaultChecked={ true } style={ { marginLeft: 30 + 'px' } } /><label>{ this.props.textNOK }</label>
       </div>
     );
   }
 }
 
+
+
+
+
 CheckboxFilter.propTypes = {
   filterHandler: React.PropTypes.func.isRequired,
-  textOK: React.PropTypes.string,
-  textNOK: React.PropTypes.string
+  textOK: React.PropTypes.bool
 };
 
 CheckboxFilter.defaultProps = {
-  textOK: 'OK',
-  textNOK: 'Not OK'
-};
+  textOK: 'Y'
+ };
+
+
+
+
 
 function addProducts(quantity) {
   const startId = products.length;
@@ -93,7 +127,8 @@ function addProducts(quantity) {
       quality: i % 3,
       price: Math.floor((Math.random() * 100) + 1),
       satisfaction: Math.floor(Math.random() * 6),
-      inStockDate: date
+      isEmployee: i%3==0?"Y":"N",
+      isUnsolicited: i%3!=0?"Y":"N"
     });
   }
 }
@@ -114,10 +149,15 @@ function dateFormatter(cell, row) {
 
 const satisfaction = [ 0, 1, 2, 3, 4, 5 ];
 function getCustomFilter(filterHandler, customFilterParameters) {
+  console.log('filterHandler::'+filterHandler);
   return (
-    <CheckboxFilter filterHandler={ filterHandler } textOK={ customFilterParameters.textOK } textNOK={ customFilterParameters.textNOK } />
+    <CheckboxFilter filterHandler={ filterHandler } textOK={ customFilterParameters.textOK }/>
   );
 }
+
+
+
+
 
 export default class AllFilters extends React.Component {
   render() {
@@ -129,13 +169,13 @@ export default class AllFilters extends React.Component {
           S.No #
           <br/><a onClick={ this.handlerClickCleanFiltered.bind(this) } style={ { cursor: 'pointer' } }>clear filters</a>
         </TableHeaderColumn>
-        <TableHeaderColumn ref='name1' dataField='name' filter={ { type: 'TextFilter', placeholder: 'Please enter a value' } }>User Role</TableHeaderColumn>
+        <TableHeaderColumn ref='name1'    dataField='name' filter={ { type: 'TextFilter', placeholder: 'Please enter a value' } }>User Role</TableHeaderColumn>
         <TableHeaderColumn ref='name2' dataField='name' filter={ { type: 'RegexFilter', placeholder: 'Please enter a regex' } }>Task Name</TableHeaderColumn>
         <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'SelectFilter', options: channelType } } dataFormat={ enumFormatter } formatExtraData={ channelType }>Channel</TableHeaderColumn>
         <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'SelectFilter', options: MOCType } } dataFormat={ enumFormatter } formatExtraData={ MOCType }>MOC</TableHeaderColumn>
-        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'CustomFilter', getElement: getCustomFilter, customFilterParameters: { textOK: 'Y', textNOK: 'N' } } }>Is Employee</TableHeaderColumn>
-        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'CustomFilter', getElement: getCustomFilter, customFilterParameters: { textOK: 'Y', textNOK: 'N' } } }>Is Unsolicited</TableHeaderColumn>
-        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'CustomFilter', getElement: getCustomFilter, customFilterParameters: { textOK: 'Y', textNOK: 'N' } } }>Is Workflow Involved?</TableHeaderColumn>
+        <TableHeaderColumn ref='isEmployee' dataField='isEmployee' filter={ { type: 'CustomFilter', getElement: getCustomFilter, customFilterParameters: { textOK: 'Y'} } }></TableHeaderColumn>
+        <TableHeaderColumn ref='isUnsolicited' dataField='isUnsolicited' filter={ { type: 'CustomFilter', getElement: getCustomFilter, customFilterParameters: { textOK: 'Y' } } }></TableHeaderColumn>
+        <TableHeaderColumn ref='quality' dataField='quality' filter={ { type: 'CustomFilter', getElement: getCustomFilter, customFilterParameters: { textOK: 'Is Workflow Involved' } } }></TableHeaderColumn>
        
         </BootstrapTable>
     );
